@@ -32,7 +32,8 @@ app.get("/contacts", async (req, res) => {
   res.send(contacts.defaultData.contacts.map((contact) => ({
     id: contact.id,
     name: contact.name,
-    email: contact.email
+    handle: contact.email,
+    avatarURL: contact.avatarURL
   })));
 });
 
