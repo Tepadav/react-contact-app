@@ -29,12 +29,14 @@ app.use((req, res, next) => {
 });
 
 app.get("/contacts", async (req, res) => {
-  res.send(contacts.defaultData.contacts.map((contact) => ({
-    id: contact.id,
-    name: contact.name,
-    handle: contact.email,
-    avatarURL: contact.avatarURL
-  })));
+  res.send(
+    contacts.get(req.token).contacts.map((contact) => ({
+      id: contact.id,
+      name: contact.name,
+      handle: contact.email,
+      avatarURL: contact.avatarURL,
+    }))
+  );
 });
 
 app.delete("/contacts/:id", (req, res) => {
@@ -42,9 +44,9 @@ app.delete("/contacts/:id", (req, res) => {
 });
 
 app.post("/contacts", bodyParser.json(), (req, res) => {
-  const { name, email } = req.body;
+  const { name, handle } = req.body;
 
-  if (name && email) {
+  if (name && handle) {
     res.send(contacts.add(req.token, req.body));
   } else {
     res.status(403).send({
